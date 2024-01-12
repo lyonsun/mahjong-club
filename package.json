@@ -6,6 +6,7 @@
     "scripts": {
         "build": "remix build",
         "dev": "remix dev --manual",
+        "format": "prettier --check .",
         "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
         "start": "remix-serve ./build/index.js",
         "typecheck": "tsc"
@@ -15,9 +16,14 @@
         "@remix-run/node": "^2.5.0",
         "@remix-run/react": "^2.5.0",
         "@remix-run/serve": "^2.5.0",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.1.0",
         "isbot": "^4.1.0",
+        "lucide-react": "^0.309.0",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "tailwind-merge": "^2.2.0",
+        "tailwindcss-animate": "^1.0.7"
     },
     "devDependencies": {
         "@remix-run/dev": "^2.5.0",
