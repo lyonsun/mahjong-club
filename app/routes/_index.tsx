@@ -1,4 +1,5 @@
 import type { MetaFunction } from '@remix-run/node';
+import { ModeToggle } from 'components/mode-toggle';
 
 export const meta: MetaFunction = () => {
     return [
@@ -9,8 +10,10 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
     return (
-        <div className="flex h-screen flex-col items-center justify-center">
+        <div className="flex w-screen items-center justify-between p-2">
             <h1 className="text-3xl font-bold">Welcome to Mahjong Club!</h1>
+
+            <ModeToggle />
         </div>
     );
 }
