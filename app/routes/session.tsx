@@ -57,7 +57,7 @@ const GameSession = () => {
                             <input
                                 type="date"
                                 name="date"
-                                className="w-40 border px-2"
+                                className="w-40 border px-2 text-white"
                                 defaultValue={
                                     new Date().toISOString().split('T')[0]
                                 }

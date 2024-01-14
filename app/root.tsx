@@ -7,7 +7,7 @@ import {
     useTheme,
 } from 'remix-themes';
 
-import { themeSessionResolver } from './sessions.server';
+import { getSession, themeSessionResolver } from './sessions.server';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import {
     Links,
@@ -19,7 +19,7 @@ import {
     useLoaderData,
 } from '@remix-run/react';
 import { cssBundleHref } from '@remix-run/css-bundle';
-import { ModeToggle } from './components/mode-toggle';
+import { Header } from './components/header';
 
 export const links: LinksFunction = () => [
     { rel: 'stylesheet', href: stylesheet },
@@ -29,8 +29,11 @@ export const links: LinksFunction = () => [
 // Return the theme from the session storage using the loader
 export async function loader({ request }: LoaderFunctionArgs) {
     const { getTheme } = await themeSessionResolver(request);
+    const session = await getSession(request);
+
     return {
         theme: getTheme(),
+        isLoggedIn: session.get('playerId'),
     };
 }
 // Wrap your app with ThemeProvider.
@@ -64,9 +67,7 @@ export function App() {
                 <Links />
             </head>
             <body>
-                <div className="fixed right-2 top-2">
-                    <ModeToggle />
-                </div>
+                {data.isLoggedIn && <Header />}
                 <Outlet />
                 <ScrollRestoration />
                 <Scripts />
