@@ -64,7 +64,7 @@ export function App() {
                 <Links />
             </head>
             <body>
-                <div className="absolute right-2 top-2">
+                <div className="fixed right-2 top-2">
                     <ModeToggle />
                 </div>
                 <Outlet />

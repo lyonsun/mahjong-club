@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,7 +7,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model player {
-  id   Int    @id @default(autoincrement())
-  name String
+model Player {
+  id         Int               @id @default(autoincrement())
+  name       String
+  rounds     GameRound[]
+  inSessions PlayerInSession[]
+}
+
+model GameSession {
+  id      Int               @id @default(autoincrement())
+  date    DateTime
+  rounds  GameRound[]
+  players PlayerInSession[]
+}
+
+model GameRound {
+  id            Int         @id @default(autoincrement())
+  number        Int
+  gameSessionId Int
+  playerId      Int
+  winner        Player      @relation(fields: [playerId], references: [id])
+  session       GameSession @relation(fields: [gameSessionId], references: [id])
+}
+
+model PlayerInSession {
+  id            Int          @id @default(autoincrement())
+  playerId      Int
+  gameSessionId Int?
+  session       GameSession? @relation(fields: [gameSessionId], references: [id])
+  player        Player       @relation(fields: [playerId], references: [id])
 }
