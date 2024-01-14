@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
 import { Form, json, redirect, useActionData } from '@remix-run/react';
-import { ModeToggle } from '~/components/mode-toggle';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
@@ -87,10 +86,6 @@ export default function Index() {
 
     return (
         <div className="relative">
-            <div className="absolute right-0 top-0">
-                <ModeToggle />
-            </div>
-
             <div className="flex h-screen w-screen flex-col items-center justify-center">
                 <Card className="shadow-2xl">
                     <CardHeader>

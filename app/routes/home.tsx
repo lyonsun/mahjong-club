@@ -1,7 +1,14 @@
 import { PrismaClient } from '@prisma/client';
-import { ActionFunctionArgs, redirect } from '@remix-run/node';
+import { ActionFunctionArgs, MetaFunction, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { getSession } from '~/sessions.server';
+
+export const meta: MetaFunction = () => {
+    return [
+        { title: 'Home' },
+        { description: 'Check your stats, join a game, and so on.' },
+    ];
+};
 
 export const loader = async ({ request }: ActionFunctionArgs) => {
     const session = await getSession(request);

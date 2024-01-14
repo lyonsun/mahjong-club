@@ -19,6 +19,7 @@ import {
     useLoaderData,
 } from '@remix-run/react';
 import { cssBundleHref } from '@remix-run/css-bundle';
+import { ModeToggle } from './components/mode-toggle';
 
 export const links: LinksFunction = () => [
     { rel: 'stylesheet', href: stylesheet },
@@ -63,6 +64,9 @@ export function App() {
                 <Links />
             </head>
             <body>
+                <div className="absolute right-2 top-2">
+                    <ModeToggle />
+                </div>
                 <Outlet />
                 <ScrollRestoration />
                 <Scripts />
