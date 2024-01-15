@@ -1,16 +1,15 @@
-import { Link, useLocation } from '@remix-run/react';
+import { Link, NavLink, useLocation } from '@remix-run/react';
 import { ModeToggle } from './mode-toggle';
 import {
     NavigationMenu,
     NavigationMenuItem,
     NavigationMenuList,
-    NavigationMenuLink,
 } from './ui/navigation-menu';
 
 const Header = () => {
     const location = useLocation();
     const activeMenu = (pathname: string) =>
-        location.pathname === pathname ? '' : 'text-neutral-500';
+        location.pathname === pathname ? 'active' : 'text-neutral-500';
 
     return (
         <header className="border-b py-2">
@@ -22,28 +21,28 @@ const Header = () => {
                     <NavigationMenu className="text-sm">
                         <NavigationMenuList className="flex gap-4">
                             <NavigationMenuItem>
-                                <NavigationMenuLink
-                                    href="/home"
+                                <NavLink
+                                    to="/home"
                                     className={activeMenu('/home')}
                                 >
                                     Home
-                                </NavigationMenuLink>
+                                </NavLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuLink
-                                    href="/session"
+                                <NavLink
+                                    to="/session"
                                     className={activeMenu('/session')}
                                 >
                                     Session
-                                </NavigationMenuLink>
+                                </NavLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuLink
-                                    href="/round"
+                                <NavLink
+                                    to="/round"
                                     className={activeMenu('/round')}
                                 >
                                     Round
-                                </NavigationMenuLink>
+                                </NavLink>
                             </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu>
