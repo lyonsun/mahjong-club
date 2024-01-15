@@ -3,7 +3,7 @@ import type {
     ActionFunctionArgs,
     LoaderFunctionArgs,
     MetaFunction,
-} from '@remix-run/node';
+} from '@vercel/remix';
 import { Form, json, redirect, useActionData } from '@remix-run/react';
 import { ModeToggle } from '~/components/mode-toggle';
 import { Button } from '~/components/ui/button';
