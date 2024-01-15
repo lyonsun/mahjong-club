@@ -474,14 +474,14 @@ export default function Home() {
                                                 {gameSession.rounds.length >
                                                     0 && (
                                                     <div className="flex flex-col gap-2 pt-6">
-                                                        <h3 className="mb-2 text-lg font-bold">
-                                                            Winners 🎉🎉
+                                                        <h3 className="mb-2 font-bold">
+                                                            🎉 Winners 🎉
                                                         </h3>
                                                         <div>
                                                             {gameSession.rounds.map(
                                                                 (r) => (
                                                                     <div
-                                                                        className="flex justify-between gap-4 border-t p-2 last:border-b"
+                                                                        className="flex justify-between gap-4 border-t p-2"
                                                                         key={
                                                                             r.id
                                                                         }
