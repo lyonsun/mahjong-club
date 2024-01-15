@@ -312,7 +312,7 @@ export default function Home() {
                                                 </div>
                                             </CardHeader>
                                             {gameSession.players.length > 0 && (
-                                                <CardContent>
+                                                <CardContent className="space-y-6">
                                                     <div className="flex flex-wrap gap-2">
                                                         {gameSession.players.map(
                                                             (p) => (
@@ -329,7 +329,7 @@ export default function Home() {
                                                     </div>
                                                     {gameSession.rounds.length >
                                                         0 && (
-                                                        <div className="flex flex-col gap-4 py-8">
+                                                        <div className="flex flex-col gap-4">
                                                             {gameSession.rounds.map(
                                                                 (r) => {
                                                                     const isPlayerInGameRound =
@@ -394,7 +394,7 @@ export default function Home() {
                                                     )}
                                                 </CardContent>
                                             )}
-                                            <CardFooter className="justify-end border-t pt-4">
+                                            <CardFooter className="justify-end">
                                                 <Form method="post">
                                                     <input
                                                         type="hidden"
