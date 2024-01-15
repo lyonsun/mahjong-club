@@ -1,8 +1,16 @@
 import { PrismaClient } from '@prisma/client';
-import { ActionFunctionArgs, redirect } from '@remix-run/node';
+import { ActionFunctionArgs, MetaFunction, redirect } from '@remix-run/node';
 import { Form, useActionData, json } from '@remix-run/react';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader } from '~/components/ui/card';
+
+export const meta: MetaFunction = () => {
+    return [
+        {
+            title: 'Game sessions',
+        },
+    ];
+};
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const prisma = new PrismaClient();
@@ -57,14 +65,18 @@ const GameSession = () => {
                             <input
                                 type="date"
                                 name="date"
-                                className="w-40 border px-2 text-white"
+                                className="w-40 border px-2 dark:text-black"
                                 defaultValue={
                                     new Date().toISOString().split('T')[0]
                                 }
                             />
                         </label>
 
-                        <Button className="inline-block" type="submit">
+                        <Button
+                            size="sm"
+                            className="inline-block"
+                            type="submit"
+                        >
                             Create
                         </Button>
                         {actionData?.error && (

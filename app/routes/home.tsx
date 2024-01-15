@@ -216,6 +216,7 @@ export default function Home() {
                                                         value={player.id}
                                                     />
                                                     <Button
+                                                        size="sm"
                                                         variant={
                                                             isPlayerInGameSession
                                                                 ? 'destructive'
@@ -244,7 +245,7 @@ export default function Home() {
                             {pastGameSessions.map((gameSession) => (
                                 <li key={gameSession.id}>
                                     <Card>
-                                        <CardHeader className="text-gray-400">
+                                        <CardHeader className="text-neutral-500">
                                             <div className="flex items-center justify-between">
                                                 <span>
                                                     {format(
