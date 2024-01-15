@@ -18,14 +18,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
     const number = formData.get('number');
     const gameSessionId = formData.get('gameSessionId');
-    const playerId = formData.get('playerId');
 
     // Validate form data
-    if (
-        typeof number !== 'string' ||
-        typeof gameSessionId !== 'string' ||
-        typeof playerId !== 'string'
-    ) {
+    if (typeof number !== 'string' || typeof gameSessionId !== 'string') {
         return json({ error: 'Invalid form data' }, { status: 400 });
     }
 
@@ -34,7 +29,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         data: {
             number: Number(number),
             gameSessionId: parseInt(gameSessionId, 10),
-            playerId: parseInt(playerId, 10),
         },
     });
 
@@ -50,20 +44,20 @@ export const loader = async () => {
     const prisma = new PrismaClient();
 
     // Get all game sessions
-    const gameSessions = await prisma.gameSession.findMany();
-
-    // Get all players
-    const players = await prisma.player.findMany();
+    const gameSessions = await prisma.gameSession.findMany({
+        orderBy: {
+            date: 'desc',
+        },
+    });
 
     return json({
         gameSessions,
-        players,
     });
 };
 
 const GameRound = () => {
     const actionData = useActionData<typeof action>();
-    const { gameSessions, players } = useLoaderData<typeof loader>();
+    const { gameSessions } = useLoaderData<typeof loader>();
 
     return (
         <div className="container space-y-12">
@@ -104,26 +98,6 @@ const GameRound = () => {
                                                 gameSession.date,
                                                 'MMMM do, yyyy'
                                             )}
-                                        </option>
-                                    ))}
-                            </select>
-                        </label>
-
-                        <label className="flex items-center gap-4">
-                            Winner
-                            <select
-                                name="playerId"
-                                required
-                                className="w-auto border bg-transparent px-2"
-                            >
-                                <option value="">Select a player</option>
-                                {players.length > 0 &&
-                                    players.map((player) => (
-                                        <option
-                                            key={player.id}
-                                            value={player.id}
-                                        >
-                                            {player.name}
                                         </option>
                                     ))}
                             </select>

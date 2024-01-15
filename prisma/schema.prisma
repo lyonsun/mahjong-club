@@ -8,10 +8,11 @@ datasource db {
 }
 
 model Player {
-  id         Int               @id @default(autoincrement())
-  name       String
-  rounds     GameRound[]
-  inSessions PlayerInSession[]
+  id            Int               @id @default(autoincrement())
+  name          String
+  rounds        GameRound[]
+  inSessions    PlayerInSession[]
+  PlayerInRound PlayerInRound[]
 }
 
 model GameSession {
@@ -22,18 +23,27 @@ model GameSession {
 }
 
 model GameRound {
-  id            Int         @id @default(autoincrement())
+  id            Int             @id @default(autoincrement())
   number        Int
   gameSessionId Int
-  playerId      Int
-  winner        Player      @relation(fields: [playerId], references: [id])
-  session       GameSession @relation(fields: [gameSessionId], references: [id])
+  playerId      Int?
+  winner        Player?         @relation(fields: [playerId], references: [id])
+  session       GameSession     @relation(fields: [gameSessionId], references: [id])
+  PlayerInRound PlayerInRound[]
 }
 
 model PlayerInSession {
-  id            Int          @id @default(autoincrement())
+  id            Int         @id @default(autoincrement())
   playerId      Int
-  gameSessionId Int?
-  session       GameSession? @relation(fields: [gameSessionId], references: [id])
-  player        Player       @relation(fields: [playerId], references: [id])
+  gameSessionId Int
+  session       GameSession @relation(fields: [gameSessionId], references: [id])
+  player        Player      @relation(fields: [playerId], references: [id])
+}
+
+model PlayerInRound {
+  id          Int       @id @default(autoincrement())
+  playerId    Int
+  gameRoundId Int
+  GameRound   GameRound @relation(fields: [gameRoundId], references: [id])
+  player      Player    @relation(fields: [playerId], references: [id])
 }
