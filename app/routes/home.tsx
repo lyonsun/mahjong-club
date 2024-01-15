@@ -26,11 +26,6 @@ export const meta: MetaFunction = () => {
     ];
 };
 
-export type Player = {
-    id: number;
-    name: string;
-};
-
 const prisma = new PrismaClient();
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -61,8 +56,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         const playerAlreadyInGameSession =
             await prisma.playerInSession.findFirst({
                 where: {
-                    gameSessionId: parseInt(gameSessionId, 10),
-                    playerId: parseInt(playerId, 10),
+                    gameSessionId: gameSessionId,
+                    playerId: playerId,
                 },
             });
 
@@ -82,8 +77,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         // Create player in game session
         const playerInGameSession = await prisma.playerInSession.create({
             data: {
-                gameSessionId: parseInt(gameSessionId, 10),
-                playerId: parseInt(playerId, 10),
+                gameSessionId: gameSessionId,
+                playerId: playerId,
             },
         });
 
@@ -112,8 +107,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
         const playerAlreadyInGameRound = await prisma.playerInRound.findFirst({
             where: {
-                gameRoundId: parseInt(gameRoundId, 10),
-                playerId: parseInt(playerId, 10),
+                gameRoundId: gameRoundId,
+                playerId: playerId,
             },
         });
 
@@ -133,8 +128,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         // Create player in game round
         const playerInGameRound = await prisma.playerInRound.create({
             data: {
-                gameRoundId: parseInt(gameRoundId, 10),
-                playerId: parseInt(playerId, 10),
+                gameRoundId: gameRoundId,
+                playerId: playerId,
             },
         });
 

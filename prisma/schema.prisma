@@ -3,47 +3,47 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Player {
-  id            Int               @id @default(autoincrement())
-  name          String
+  id            String            @id @default(auto()) @map("_id") @db.ObjectId
+  name          String            @unique
   rounds        GameRound[]
   inSessions    PlayerInSession[]
   PlayerInRound PlayerInRound[]
 }
 
 model GameSession {
-  id      Int               @id @default(autoincrement())
+  id      String            @id @default(auto()) @map("_id") @db.ObjectId
   date    DateTime
   rounds  GameRound[]
   players PlayerInSession[]
 }
 
 model GameRound {
-  id            Int             @id @default(autoincrement())
-  number        Int
-  gameSessionId Int
-  playerId      Int?
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  number        String
   winner        Player?         @relation(fields: [playerId], references: [id])
   session       GameSession     @relation(fields: [gameSessionId], references: [id])
   PlayerInRound PlayerInRound[]
+  playerId      String?         @db.ObjectId
+  gameSessionId String          @db.ObjectId
 }
 
 model PlayerInSession {
-  id            Int         @id @default(autoincrement())
-  playerId      Int
-  gameSessionId Int
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
   session       GameSession @relation(fields: [gameSessionId], references: [id])
   player        Player      @relation(fields: [playerId], references: [id])
+  gameSessionId String      @db.ObjectId
+  playerId      String      @db.ObjectId
 }
 
 model PlayerInRound {
-  id          Int       @id @default(autoincrement())
-  playerId    Int
-  gameRoundId Int
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   GameRound   GameRound @relation(fields: [gameRoundId], references: [id])
   player      Player    @relation(fields: [playerId], references: [id])
+  gameRoundId String    @db.ObjectId
+  playerId    String    @db.ObjectId
 }

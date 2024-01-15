@@ -29,8 +29,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     // Check if game round exists
     const gameRoundExists = await prisma.gameRound.findFirst({
         where: {
-            number: Number(number),
-            gameSessionId: parseInt(gameSessionId, 10),
+            number: number,
+            gameSessionId: gameSessionId,
         },
     });
 
@@ -40,7 +40,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
                 id: gameRoundExists.id,
             },
             data: {
-                playerId: parseInt(playerId as string, 10),
+                playerId: playerId as string,
             },
         });
 
@@ -58,8 +58,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     // Create game round
     const gameRound = await prisma.gameRound.create({
         data: {
-            number: Number(number),
-            gameSessionId: parseInt(gameSessionId, 10),
+            number: number,
+            gameSessionId: gameSessionId,
         },
     });
 

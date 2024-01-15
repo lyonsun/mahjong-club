@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Player, PrismaClient } from '@prisma/client';
 import type {
     ActionFunctionArgs,
     LoaderFunctionArgs,
@@ -36,11 +36,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             error: 'Player name must be a string',
         });
     }
-
-    type Player = {
-        id: number;
-        name: string;
-    };
 
     let currentPlayer: Player;
 
