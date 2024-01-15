@@ -195,7 +195,7 @@ export default function Home() {
                                                         (p) => (
                                                             <Badge
                                                                 key={p.id}
-                                                                className="bg-purple-500 text-white hover:bg-purple-500 hover:text-white"
+                                                                className="bg-indigo-500 text-white hover:bg-indigo-500"
                                                             >
                                                                 {p.player.name}
                                                             </Badge>

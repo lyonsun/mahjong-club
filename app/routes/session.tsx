@@ -48,10 +48,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 const GameSession = () => {
     const actionData = useActionData<typeof action>();
+    // Get tomorrow
+    const tomorrow = new Date(+new Date() + 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split('T')[0];
 
     return (
         <div className="container mt-12">
-            <h1 className="mb-4 text-3xl font-bold">Game Session</h1>
+            <h1 className="mb-12 text-3xl font-bold">Game Session</h1>
             <Card className="text-left">
                 <CardHeader>
                     <h2 className="text-xl font-bold">
@@ -59,16 +63,15 @@ const GameSession = () => {
                     </h2>
                 </CardHeader>
                 <CardContent>
-                    <Form method="post" className="space-y-4">
-                        <label className="flex flex-col gap-2">
+                    <Form method="post" className="space-y-6">
+                        <label className="flex items-center gap-4">
                             Date
                             <input
                                 type="date"
                                 name="date"
+                                min={tomorrow}
                                 className="w-40 border px-2 dark:text-black"
-                                defaultValue={
-                                    new Date().toISOString().split('T')[0]
-                                }
+                                defaultValue={tomorrow}
                             />
                         </label>
 
