@@ -20,6 +20,7 @@ import {
 } from '@remix-run/react';
 import { cssBundleHref } from '@remix-run/css-bundle';
 import { Header } from './components/header';
+import { Footer } from './components/footer';
 
 export const links: LinksFunction = () => [
     { rel: 'stylesheet', href: stylesheet },
@@ -66,12 +67,15 @@ export function App() {
                 <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
                 <Links />
             </head>
-            <body>
+            <body className="flex min-h-screen flex-col">
                 {data.isLoggedIn && <Header />}
-                <Outlet />
+                <main className="flex-1">
+                    <Outlet />
+                </main>
                 <ScrollRestoration />
                 <Scripts />
                 <LiveReload />
+                {data.isLoggedIn && <Footer />}
             </body>
         </html>
     );

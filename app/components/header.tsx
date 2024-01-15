@@ -12,7 +12,7 @@ const Header = () => {
         location.pathname === pathname ? 'active' : 'text-neutral-500';
 
     return (
-        <header className="border-b py-2">
+        <header className="mb-12 border-b py-2">
             <div className="container flex items-center justify-between">
                 <div className="flex flex-nowrap gap-8">
                     <Link to="/" className="text-xl font-bold">

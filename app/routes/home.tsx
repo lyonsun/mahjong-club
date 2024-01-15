@@ -110,6 +110,22 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
         });
     }
 
+    // Get number of game sessions where player is in
+    const playerGameSessionCount = await prisma.playerInSession.count({
+        where: {
+            playerId: playerId,
+        },
+    });
+
+    // TODO: Get number of game sessions where player is in
+
+    // Get number of game rounds where player won
+    const winningRoundCount = await prisma.gameRound.count({
+        where: {
+            playerId: playerId,
+        },
+    });
+
     // Get future game session list
     const futureGameSessions = await prisma.gameSession.findMany({
         where: {
@@ -154,24 +170,54 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
     return {
         player,
+        playerGameSessionCount,
+        winningRoundCount,
         futureGameSessions,
         pastGameSessions,
     };
 };
 
 export default function Home() {
-    const { player, futureGameSessions, pastGameSessions } =
-        useLoaderData<typeof loader>();
+    const {
+        player,
+        playerGameSessionCount,
+        winningRoundCount,
+        futureGameSessions,
+        pastGameSessions,
+    } = useLoaderData<typeof loader>();
 
     return (
-        <div className="container mt-12 space-y-4">
-            <h1 className="mb-12 text-3xl font-bold">
-                Welcome {player?.name}!
-            </h1>
+        <div className="container space-y-12">
+            <h1 className="text-3xl font-bold">Welcome {player.name}!</h1>
+
+            <div className="grid gap-8 md:grid-cols-3">
+                <Card>
+                    <CardHeader>Sessions participated</CardHeader>
+                    <CardContent>
+                        <p className="text-xl font-bold">
+                            {playerGameSessionCount}
+                        </p>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>Round played</CardHeader>
+                    <CardContent>
+                        <p className="text-xl font-bold">TBD</p>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>Winning rounds</CardHeader>
+                    <CardContent>
+                        <p className="text-xl font-bold">{winningRoundCount}</p>
+                    </CardContent>
+                </Card>
+            </div>
 
             <div className="grid gap-8 lg:grid-cols-2">
                 {futureGameSessions.length > 0 && (
-                    <div className="space-y-4">
+                    <div className="space-y-8">
                         <h2 className="border-b-4 border-teal-500 text-xl font-bold uppercase text-teal-500">
                             Game sessions - Coming soon
                         </h2>
@@ -179,7 +225,7 @@ export default function Home() {
                             {futureGameSessions.map((gameSession) => {
                                 const isPlayerInGameSession =
                                     gameSession.players.some(
-                                        (p) => p.playerId === player?.id
+                                        (p) => p.playerId === player.id
                                     );
 
                                 return (
@@ -208,7 +254,6 @@ export default function Home() {
                                                             (p) => (
                                                                 <Badge
                                                                     key={p.id}
-                                                                    // className="bg-indigo-500 text-white hover:bg-indigo-500"
                                                                 >
                                                                     {
                                                                         p.player
@@ -275,7 +320,7 @@ export default function Home() {
                     </div>
                 )}
                 {pastGameSessions.length > 0 && (
-                    <div className="space-y-4">
+                    <div className="space-y-8">
                         <h2 className="border-b-4 border-neutral-500 text-xl font-bold uppercase text-neutral-500">
                             Ended sessions
                         </h2>
