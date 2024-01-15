@@ -7,6 +7,7 @@ import {
 } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import { format } from 'date-fns/format';
+import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import {
     Card,
@@ -192,12 +193,12 @@ export default function Home() {
                                                 <CardContent className="flex flex-wrap gap-2">
                                                     {gameSession.players.map(
                                                         (p) => (
-                                                            <div
+                                                            <Badge
                                                                 key={p.id}
-                                                                className="inline-block rounded bg-violet-500 px-4 py-2 font-bold text-white"
+                                                                className="bg-purple-500 text-white hover:bg-purple-500 hover:text-white"
                                                             >
                                                                 {p.player.name}
-                                                            </div>
+                                                            </Badge>
                                                         )
                                                     )}
                                                 </CardContent>
@@ -215,7 +216,6 @@ export default function Home() {
                                                         value={player.id}
                                                     />
                                                     <Button
-                                                        size={'lg'}
                                                         variant={
                                                             isPlayerInGameSession
                                                                 ? 'destructive'
@@ -237,7 +237,7 @@ export default function Home() {
                 )}
                 {pastGameSessions.length > 0 && (
                     <div className="space-y-4">
-                        <h2 className="border-b-4 border-slate-500 text-xl font-bold uppercase text-slate-500">
+                        <h2 className="border-b-4 border-neutral-500 text-xl font-bold uppercase text-neutral-500">
                             Ended sessions
                         </h2>
                         <ul className="grid grid-cols-1 gap-4">
@@ -264,12 +264,12 @@ export default function Home() {
                                             <CardContent className="flex flex-wrap gap-2">
                                                 {gameSession.players.map(
                                                     (p) => (
-                                                        <div
+                                                        <Badge
                                                             key={p.id}
-                                                            className="inline-block rounded bg-violet-500 px-4 py-2 font-bold text-white"
+                                                            className="bg-neutral-500 text-white hover:bg-neutral-500 hover:text-white"
                                                         >
                                                             {p.player.name}
-                                                        </div>
+                                                        </Badge>
                                                     )
                                                 )}
                                             </CardContent>
