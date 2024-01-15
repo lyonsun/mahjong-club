@@ -9,6 +9,8 @@ import {
 
 const Header = () => {
     const location = useLocation();
+    const activeMenu = (pathname: string) =>
+        location.pathname === pathname ? '' : 'text-neutral-500';
 
     return (
         <header className="border-b py-2">
@@ -22,11 +24,7 @@ const Header = () => {
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     href="/home"
-                                    className={
-                                        location.pathname === '/home'
-                                            ? ''
-                                            : 'text-neutral-500'
-                                    }
+                                    className={activeMenu('/home')}
                                 >
                                     Home
                                 </NavigationMenuLink>
@@ -34,13 +32,17 @@ const Header = () => {
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     href="/session"
-                                    className={
-                                        location.pathname === '/session'
-                                            ? ''
-                                            : 'text-neutral-500'
-                                    }
+                                    className={activeMenu('/session')}
                                 >
                                     Session
+                                </NavigationMenuLink>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuLink
+                                    href="/round"
+                                    className={activeMenu('/round')}
+                                >
+                                    Round
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                         </NavigationMenuList>

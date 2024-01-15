@@ -1,5 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node';
+import type {
+    ActionFunctionArgs,
+    LoaderFunctionArgs,
+    MetaFunction,
+} from '@remix-run/node';
 import { Form, json, redirect, useActionData } from '@remix-run/react';
 import { ModeToggle } from '~/components/mode-toggle';
 import { Button } from '~/components/ui/button';
@@ -72,7 +76,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     });
 };
 
-export const loader = async ({ request }: ActionFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
     const session = await getSession(request);
     const playerId = session.get('playerId');
 

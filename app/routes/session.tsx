@@ -70,7 +70,7 @@ const GameSession = () => {
                                 type="date"
                                 name="date"
                                 min={tomorrow}
-                                className="w-40 border px-2 dark:text-black"
+                                className="w-40 border bg-transparent px-2"
                                 defaultValue={tomorrow}
                             />
                         </label>

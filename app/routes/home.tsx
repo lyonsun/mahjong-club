@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import {
     ActionFunctionArgs,
+    LoaderFunctionArgs,
     MetaFunction,
     json,
     redirect,
@@ -85,7 +86,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     });
 };
 
-export const loader = async ({ request }: ActionFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
     const session = await getSession(request);
     const playerId = session.get('playerId');
     const prisma = new PrismaClient();
@@ -122,6 +123,11 @@ export const loader = async ({ request }: ActionFunctionArgs) => {
                     player: true,
                 },
             },
+            rounds: {
+                include: {
+                    winner: true,
+                },
+            },
         },
     });
 
@@ -136,6 +142,11 @@ export const loader = async ({ request }: ActionFunctionArgs) => {
             players: {
                 include: {
                     player: true,
+                },
+            },
+            rounds: {
+                include: {
+                    winner: true,
                 },
             },
         },
@@ -170,6 +181,7 @@ export default function Home() {
                                     gameSession.players.some(
                                         (p) => p.playerId === player?.id
                                     );
+
                                 return (
                                     <li key={gameSession.id}>
                                         <Card>
@@ -190,16 +202,42 @@ export default function Home() {
                                                 </div>
                                             </CardHeader>
                                             {gameSession.players.length > 0 && (
-                                                <CardContent className="flex flex-wrap gap-2">
-                                                    {gameSession.players.map(
-                                                        (p) => (
-                                                            <Badge
-                                                                key={p.id}
-                                                                className="bg-indigo-500 text-white hover:bg-indigo-500"
-                                                            >
-                                                                {p.player.name}
-                                                            </Badge>
-                                                        )
+                                                <CardContent>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {gameSession.players.map(
+                                                            (p) => (
+                                                                <Badge
+                                                                    key={p.id}
+                                                                    // className="bg-indigo-500 text-white hover:bg-indigo-500"
+                                                                >
+                                                                    {
+                                                                        p.player
+                                                                            .name
+                                                                    }
+                                                                </Badge>
+                                                            )
+                                                        )}
+                                                    </div>
+                                                    {gameSession.rounds.length >
+                                                        0 && (
+                                                        <div>
+                                                            {gameSession.rounds.map(
+                                                                (r) => (
+                                                                    <div
+                                                                        key={
+                                                                            r.id
+                                                                        }
+                                                                        className="text-red"
+                                                                    >
+                                                                        {
+                                                                            r
+                                                                                .winner
+                                                                                .name
+                                                                        }
+                                                                    </div>
+                                                                )
+                                                            )}
+                                                        </div>
                                                     )}
                                                 </CardContent>
                                             )}
@@ -219,7 +257,7 @@ export default function Home() {
                                                         size="sm"
                                                         variant={
                                                             isPlayerInGameSession
-                                                                ? 'destructive'
+                                                                ? 'secondary'
                                                                 : 'default'
                                                         }
                                                     >
@@ -244,8 +282,8 @@ export default function Home() {
                         <ul className="grid grid-cols-1 gap-4">
                             {pastGameSessions.map((gameSession) => (
                                 <li key={gameSession.id}>
-                                    <Card>
-                                        <CardHeader className="text-neutral-500">
+                                    <Card className="text-neutral-500">
+                                        <CardHeader>
                                             <div className="flex items-center justify-between">
                                                 <span>
                                                     {format(
@@ -262,16 +300,47 @@ export default function Home() {
                                             </div>
                                         </CardHeader>
                                         {gameSession.players.length > 0 && (
-                                            <CardContent className="flex flex-wrap gap-2">
-                                                {gameSession.players.map(
-                                                    (p) => (
-                                                        <Badge
-                                                            key={p.id}
-                                                            className="bg-neutral-500 text-white hover:bg-neutral-500 hover:text-white"
-                                                        >
-                                                            {p.player.name}
-                                                        </Badge>
-                                                    )
+                                            <CardContent className="space-y-4">
+                                                <div className="flex flex-wrap gap-2">
+                                                    {gameSession.players.map(
+                                                        (p) => (
+                                                            <Badge
+                                                                key={p.id}
+                                                                className="bg-neutral-500 text-white hover:bg-neutral-500 hover:text-white"
+                                                            >
+                                                                {p.player.name}
+                                                            </Badge>
+                                                        )
+                                                    )}
+                                                </div>
+                                                {gameSession.rounds.length >
+                                                    0 && (
+                                                    <div className="flex flex-col gap-2 pt-6">
+                                                        <h3 className="mb-2 text-lg font-bold">
+                                                            Winners 🎉🎉
+                                                        </h3>
+                                                        <div>
+                                                            {gameSession.rounds.map(
+                                                                (r) => (
+                                                                    <div
+                                                                        className="flex justify-between gap-4 border-t p-2 last:border-b"
+                                                                        key={
+                                                                            r.id
+                                                                        }
+                                                                    >
+                                                                        <div>{`Round ${r.number}`}</div>
+                                                                        <div>
+                                                                            {
+                                                                                r
+                                                                                    .winner
+                                                                                    .name
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 )}
                                             </CardContent>
                                         )}
