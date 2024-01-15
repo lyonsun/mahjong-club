@@ -175,6 +175,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     const playerGameSessionCount = await prisma.playerInSession.count({
         where: {
             playerId: playerId,
+            session: {
+                date: {
+                    lte: new Date(),
+                },
+            },
         },
     });
 
@@ -182,6 +187,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     const playerGameRoundCount = await prisma.playerInRound.count({
         where: {
             playerId: playerId,
+            round: {
+                session: {
+                    date: {
+                        lte: new Date(),
+                    },
+                },
+            },
         },
     });
 
@@ -211,7 +223,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
             rounds: {
                 include: {
                     winner: true,
-                    PlayerInRound: true,
+                    inRoundPlayers: true,
                 },
             },
         },
@@ -328,7 +340,7 @@ export default function Home() {
                                                             {gameSession.rounds.map(
                                                                 (r) => {
                                                                     const isPlayerInGameRound =
-                                                                        r.PlayerInRound.some(
+                                                                        r.inRoundPlayers.some(
                                                                             (
                                                                                 p
                                                                             ) =>

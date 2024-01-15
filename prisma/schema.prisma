@@ -8,28 +8,28 @@ datasource db {
 }
 
 model Player {
-  id            String            @id @default(auto()) @map("_id") @db.ObjectId
-  name          String            @unique
-  rounds        GameRound[]
-  inSessions    PlayerInSession[]
-  PlayerInRound PlayerInRound[]
+  id               String            @id @default(auto()) @map("_id") @db.ObjectId
+  name             String            @unique
+  rounds           GameRound[]
+  inSessionPlayers PlayerInSession[]
+  inRoundPlayers   PlayerInRound[]
 }
 
 model GameSession {
   id      String            @id @default(auto()) @map("_id") @db.ObjectId
-  date    DateTime
+  date    DateTime          @default(now())
   rounds  GameRound[]
   players PlayerInSession[]
 }
 
 model GameRound {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  number        String
-  winner        Player?         @relation(fields: [playerId], references: [id])
-  session       GameSession     @relation(fields: [gameSessionId], references: [id])
-  PlayerInRound PlayerInRound[]
-  playerId      String?         @db.ObjectId
-  gameSessionId String          @db.ObjectId
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  number         String
+  winner         Player?         @relation(fields: [playerId], references: [id])
+  session        GameSession     @relation(fields: [gameSessionId], references: [id])
+  inRoundPlayers PlayerInRound[]
+  playerId       String?         @db.ObjectId
+  gameSessionId  String          @db.ObjectId
 }
 
 model PlayerInSession {
@@ -42,7 +42,7 @@ model PlayerInSession {
 
 model PlayerInRound {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  GameRound   GameRound @relation(fields: [gameRoundId], references: [id])
+  round       GameRound @relation(fields: [gameRoundId], references: [id])
   player      Player    @relation(fields: [playerId], references: [id])
   gameRoundId String    @db.ObjectId
   playerId    String    @db.ObjectId
