@@ -13,15 +13,46 @@ export const meta: MetaFunction = () => {
     ];
 };
 
+const prisma = new PrismaClient();
+
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const prisma = new PrismaClient();
     const formData = await request.formData();
     const number = formData.get('number');
     const gameSessionId = formData.get('gameSessionId');
+    const playerId = formData.get('playerId');
 
     // Validate form data
     if (typeof number !== 'string' || typeof gameSessionId !== 'string') {
         return json({ error: 'Invalid form data' }, { status: 400 });
+    }
+
+    // Check if game round exists
+    const gameRoundExists = await prisma.gameRound.findFirst({
+        where: {
+            number: Number(number),
+            gameSessionId: parseInt(gameSessionId, 10),
+        },
+    });
+
+    if (gameRoundExists && playerId) {
+        const updatedGameRound = await prisma.gameRound.update({
+            where: {
+                id: gameRoundExists.id,
+            },
+            data: {
+                playerId: parseInt(playerId as string, 10),
+            },
+        });
+
+        if (!updatedGameRound) {
+            return json(
+                { error: 'Failed to update game round' },
+                { status: 500 }
+            );
+        }
+
+        // Redirect to home page
+        return redirect('/home');
     }
 
     // Create game round
@@ -41,8 +72,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export const loader = async () => {
-    const prisma = new PrismaClient();
-
     // Get all game sessions
     const gameSessions = await prisma.gameSession.findMany({
         orderBy: {
@@ -50,14 +79,20 @@ export const loader = async () => {
         },
     });
 
+    // Get all players
+    const players = await prisma.player.findMany();
+
+    // Return game sessions
+
     return json({
+        players,
         gameSessions,
     });
 };
 
 const GameRound = () => {
     const actionData = useActionData<typeof action>();
-    const { gameSessions } = useLoaderData<typeof loader>();
+    const { players, gameSessions } = useLoaderData<typeof loader>();
 
     return (
         <div className="container space-y-12">
@@ -98,6 +133,25 @@ const GameRound = () => {
                                                 gameSession.date,
                                                 'MMMM do, yyyy'
                                             )}
+                                        </option>
+                                    ))}
+                            </select>
+                        </label>
+
+                        <label className="flex items-center gap-4">
+                            Winner
+                            <select
+                                name="playerId"
+                                className="w-auto border bg-transparent px-2"
+                            >
+                                <option value="">Select a player</option>
+                                {players.length > 0 &&
+                                    players.map((player) => (
+                                        <option
+                                            key={player.id}
+                                            value={player.id}
+                                        >
+                                            {player.name}
                                         </option>
                                     ))}
                             </select>
