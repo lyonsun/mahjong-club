@@ -1,5 +1,5 @@
 import stylesheet from '~/tailwind.css';
-import type { LinksFunction } from '@vercel/remix';
+import type { LinksFunction } from '@remix-run/node';
 import clsx from 'clsx';
 import {
     PreventFlashOnWrongTheme,
@@ -8,7 +8,7 @@ import {
 } from 'remix-themes';
 
 import { getSession, themeSessionResolver } from './sessions.server';
-import { LoaderFunctionArgs } from '@vercel/remix';
+import { LoaderFunctionArgs } from '@remix-run/node';
 import {
     Links,
     LiveReload,

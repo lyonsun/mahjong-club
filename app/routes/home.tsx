@@ -5,7 +5,7 @@ import {
     MetaFunction,
     json,
     redirect,
-} from '@vercel/remix';
+} from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import { format } from 'date-fns/format';
 import { FigureCard } from '~/components/figure-card';

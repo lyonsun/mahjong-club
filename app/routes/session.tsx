@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { ActionFunctionArgs, MetaFunction, redirect } from '@vercel/remix';
+import { ActionFunctionArgs, MetaFunction, redirect } from '@remix-run/node';
 import { Form, useActionData, json } from '@remix-run/react';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader } from '~/components/ui/card';
