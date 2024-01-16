@@ -17,7 +17,7 @@ export const sessionStorage = createCookieSessionStorage({
         secrets: ['s3cr3t'],
         // Set domain and secure only if in production
         ...(isProduction
-            ? { domain: 'your-production-domain.com', secure: true }
+            ? { domain: process.env.PRODUCTION_DOMAIN_URL, secure: true }
             : {}),
     },
 });
