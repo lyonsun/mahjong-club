@@ -6,10 +6,11 @@
     "scripts": {
         "build": "remix build",
         "dev": "remix dev --manual",
+        "start": "remix-serve ./build/index.js",
+        "postinstall": "prisma generate",
         "format": "prettier --check .",
         "format:fix": "prettier --write .",
         "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-        "start": "remix-serve ./build/index.js",
         "typecheck": "tsc"
     },
     "dependencies": {
