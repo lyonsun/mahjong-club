@@ -1,5 +1,13 @@
 # Welcome to Mahjong Club!
 
+## Tech Info
+
+-   Remix
+-   Tailwind CSS
+-   Shadcn UI
+-   Prisma
+-   MongoDB
+
 ## Development
 
 From your terminal:
